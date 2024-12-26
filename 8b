@@ -1,0 +1,109 @@
+Create the Database and Table:
+
+Open phpMyAdmin (usually available at http://localhost/phpmyadmin).
+Create a new database named students.
+Create a table named students with columns: id, name, usn, branch, email.
+SQL query to create the table:
+
+sql
+Copy code
+CREATE TABLE students (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    usn VARCHAR(20),
+    branch VARCHAR(50),
+    email VARCHAR(100)
+);
+Insert Some Sample Data:
+
+Insert a few sample records into the students table for testing purposes.
+Example query:
+
+sql
+Copy code
+INSERT INTO students (name, usn, branch, email)
+VALUES
+('John Doe', '1BT18CS001', 'Computer Science', 'john@example.com'),
+('Alice Smith', '1BT18CS002', 'Mechanical', 'alice@example.com'),
+('Bob Brown', '1BT18CS003', 'Electrical', 'bob@example.com');
+Create the PHP File:
+
+Create a new file named sort_students.php in the htdocs folder of your XAMPP installation (usually C:\xampp\htdocs).
+PHP Code to Fetch, Sort, and Display Data:
+
+Simplified code for sorting and displaying student records using Selection Sort:
+
+php
+Copy code
+<?php
+// Database connection
+$conn = new mysqli("localhost", "root", "", "students");
+if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+
+// Fetch all students
+$result = $conn->query("SELECT * FROM students");
+$students = $result->fetch_all(MYSQLI_ASSOC);
+
+// Selection Sort function
+function selectionSort(&$arr, $key) {
+    $n = count($arr);
+    for ($i = 0; $i < $n - 1; $i++) {
+        $min = $i;
+        for ($j = $i + 1; $j < $n; $j++) {
+            if ($arr[$j][$key] < $arr[$min][$key]) $min = $j;
+        }
+        if ($min != $i) {
+            $temp = $arr[$i]; $arr[$i] = $arr[$min]; $arr[$min] = $temp;
+        }
+    }
+}
+
+// Sort students by name
+selectionSort($students, 'name');
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sorted Students</title>
+</head>
+<body>
+    <h2>Sorted Student Records</h2>
+    <table border="1">
+        <thead>
+            <tr><th>ID</th><th>Name</th><th>USN</th><th>Branch</th><th>Email</th></tr>
+        </thead>
+        <tbody>
+            <?php foreach ($students as $student): ?>
+                <tr>
+                    <td><?php echo $student['id']; ?></td>
+                    <td><?php echo $student['name']; ?></td>
+                    <td><?php echo $student['usn']; ?></td>
+                    <td><?php echo $student['branch']; ?></td>
+                    <td><?php echo $student['email']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</body>
+</html>
+How to Run the PHP Application:
+Start XAMPP:
+
+Open the XAMPP Control Panel and start the Apache and MySQL services.
+Place the PHP File in htdocs:
+
+Copy the sort_students.php file and paste it into the htdocs folder located in your XAMPP installation directory (typically C:\xampp\htdocs).
+Open the Browser:
+
+Open your web browser (e.g., Chrome or Firefox) and visit:
+
+arduino
+Copy code
+http://localhost/sort_students.php
+You should see the sorted student records displayed in a table, sorted by name.
+
+Explanation of the Code:
+Database connection: We connect to the MySQL database (students) with default credentials (root for the username and an empty password).
+Selection Sort: The selectionSort() function sorts the student array by the name field.
+HTML Table: The sorted data is displayed in a simple HTML table with columns: ID, Name, USN, Branch, and Email.

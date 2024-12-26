@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>jQuery Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        #paragraph {
+            margin-bottom: 15px;
+        }
+        #list {
+            margin-bottom: 15px;
+            padding: 0;
+            list-style: none;
+        }
+        #list li {
+            background: #d0e2fe;
+            padding: 8px;
+            margin: 5px 0;
+        }
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            color: white;
+            line-height: 100px;
+            margin: 20px auto;
+            border-radius: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <p id="paragraph">This is an existing paragraph.</p>
+    <ul id="list">
+        <li>List item 1</li>
+        <li>List item 2</li>
+    </ul>
+    <div id="box">Animate me!</div>
+    <button id="appendButton">Append Content</button>
+    <button id="animateButton">Animate Box</button>
+
+    <script>
+        $(document).ready(function() {
+            // Append content to paragraph and list
+            $("#appendButton").click(function() {
+                $("#paragraph").append(" Appended text.");
+                $("#list").append("<li>New appended list item</li>");
+            });
+
+            // Animate the box and change its color
+            $("#animateButton").click(function() {
+                $("#box").animate({ width: "200px", height: "200px", opacity: 0.5 }, 1000, function() {
+                    $(this).css("background-color", "green");
+                });
+            });
+        });
+    </script>
+</body>
+</html>

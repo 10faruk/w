@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+
+    <h1>Simple Converter</h1>
+
+    <!-- 1. Convert JSON Text to JavaScript Object -->
+    <h2>Convert JSON to JS Object</h2>
+    <textarea id="jsonInput" placeholder="Enter JSON"></textarea>
+    <button onclick="convertJsonToObject()">Convert</button>
+    <pre id="jsonOutput"></pre>
+
+    <!-- 2. Convert JSON to Date -->
+    <h2>Convert JSON Date</h2>
+    <textarea id="jsonDateInput" placeholder='Enter JSON with "date"'></textarea>
+    <button onclick="convertJsonToDate()">Convert</button>
+    <pre id="jsonDateOutput"></pre>
+
+    <!-- 3. Convert JSON to CSV -->
+    <h2>JSON to CSV</h2>
+    <textarea id="jsonCsvInput" placeholder="Enter JSON for CSV"></textarea>
+    <button onclick="convertJsonToCsv()">Convert</button>
+    <pre id="csvOutput"></pre>
+
+    <!-- 4. Create Hash from String -->
+    <h2>Create Hash</h2>
+    <input type="text" id="hashInput" placeholder="Enter string to hash">
+    <button onclick="createHash()">Generate Hash</button>
+    <pre id="hashOutput"></pre>
+
+    <script>
+        // 1. Convert JSON Text to JavaScript Object
+        function convertJsonToObject() {
+            try {
+                const jsonObject = JSON.parse(document.getElementById('jsonInput').value);
+                document.getElementById('jsonOutput').textContent = JSON.stringify(jsonObject, null, 2);
+            } catch (error) {
+                document.getElementById('jsonOutput').textContent = 'Invalid JSON';
+            }
+        }
+
+        // 2. Convert JSON to Date
+        function convertJsonToDate() {
+            try {
+                const data = JSON.parse(document.getElementById('jsonDateInput').value);
+                const date = new Date(data.date);
+                document.getElementById('jsonDateOutput').textContent = date.toString();
+            } catch (error) {
+                document.getElementById('jsonDateOutput').textContent = 'Invalid JSON or Date Format';
+            }
+        }
+
+        // 3. Convert JSON to CSV
+        function convertJsonToCsv() {
+            try {
+                const jsonArray = JSON.parse(document.getElementById('jsonCsvInput').value);
+                const keys = Object.keys(jsonArray[0]);
+                const csv = keys.join(',') + '\n' + jsonArray.map(row => keys.map(key => row[key]).join(',')).join('\n');
+                document.getElementById('csvOutput').textContent = csv;
+            } catch (error) {
+                document.getElementById('csvOutput').textContent = 'Invalid JSON';
+            }
+        }
+
+        // 4. Create Hash from String
+        function createHash() {
+            const hashInput = document.getElementById('hashInput').value.trim();
+            if (hashInput) {
+                const hash = CryptoJS.SHA256(hashInput).toString();
+                document.getElementById('hashOutput').textContent = hash;
+            } else {
+                document.getElementById('hashOutput').textContent = 'Input cannot be empty';
+            }
+        }
+    </script>
+
+</body>
+</html>
